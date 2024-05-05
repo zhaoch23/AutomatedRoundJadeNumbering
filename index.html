@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenCV.js Circle Detection</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+    <div id="canvas-container">
+        <canvas id="canvas"></canvas>        
+    </div>
+
+    <label for="languageSelector">Language:</label>
+    <select id="languageSelector">
+        <option value="zh_cn">中文 (简体)</option>
+        <option value="en">English</option>
+    </select>
+    
+    <div id="control-panel">
+
+        <div id="range-container">
+            <label for="maxCircles">Max Circles per Row: <span id="maxCirclesValue">7</span></label>
+            <input type="range" id="maxCircles" min="1" max="20" value="7">
+        </div>
+
+        <div id="initial-number-container">
+            <label for="initialNumber">Start Counting From:</label>
+            <input type="number" id="initialNumber" value="1" min="1">
+        </div>
+
+        <span id="switch-label">Remove Circle</span>
+        <label class="switch">
+            <input id="switch" type="checkbox">
+            <span class="slider round"></span>
+        </label>
+
+        <div id="label-size-container">
+            <label for="labelSize">Label Size: <span id="labelSizeValue">50</span></label>
+            <input type="range" id="labelSize" min="10" max="200" value="50">
+        </div>
+
+        <button id="processButton">Process Image</button>
+        <button id="saveButton">Save Image</button>
+        <button id="fileButton">Select Image</button>
+    </div>
+
+    <script src="translations.js"></script>
+    <script src="script.js"></script>
+    <script async src="https://docs.opencv.org/4.5.3/opencv.js" onload="onOpenCvReady()" type="text/javascript"></script>
+</body>
+</html>

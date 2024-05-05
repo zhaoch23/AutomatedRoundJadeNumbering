@@ -1,0 +1,114 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+#canvas-container {
+    position: relative;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+#fileButton,
+#processButton,
+#saveButton {
+    display: block;
+    margin: 20px auto;
+    padding: 15px 30px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+#fileButton:hover,
+#processButton:hover,
+#saveButton:hover {
+    background-color: #0056b3;
+}
+
+#switch-container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+#switch-label {
+    margin-right: 5px;
+}
+
+#switch {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 50px;
+    height: 25px;
+    background-color: #ccc;
+    border-radius: 25px;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+}
+
+#switch::before {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: white;
+    transition: 0.2s;
+    left: 0;
+    top: 0;
+}
+
+#switch:checked::before {
+    left: 25px;
+}
+
+#control-panel {
+    text-align: center;
+    margin-top: 10px;
+}
+
+/* General styles for form controls */
+#initial-number-container {
+    text-align: center;
+    margin: 20px;
+}
+
+#initial-number-container label {
+    font-size: 16px; /* Larger text for easier reading */
+    margin-right: 10px;
+}
+
+#initialNumber {
+    font-size: 16px; /* Larger font size for easier interaction */
+    padding: 10px; /* Larger padding for easier tapping */
+    width: 100px; /* Appropriate width for mobile screens */
+    border: 2px solid #007bff; /* Stylish border color */
+    border-radius: 5px; /* Rounded corners for modern look */
+}
+
+/* Media query for devices with a max-width of 600px */
+@media (max-width: 600px) {
+    #initial-number-container {
+        font-size: 18px; /* Even larger text for very small screens */
+    }
+
+    #initialNumber {
+        width: 80%; /* Takes up most of the container for easier access */
+        padding: 15px; /* Larger padding for better tap accuracy */
+    }
+}
