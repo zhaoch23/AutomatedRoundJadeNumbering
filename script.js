@@ -6,6 +6,7 @@ const circles = [];         // array of circles
 let circlesPerRow = 7;      // number of circles per row
 let labelSize = 50;         // size of the label
 let addCircleMode = false;   // add or remove circle mode
+let lang = 'zh_cn';         // language
 
 window.onload = function() {
     document.getElementById('languageSelector').dispatchEvent(new Event('change'));
@@ -228,7 +229,7 @@ function downloadImage() {
 
 document.getElementById('switch').addEventListener('change', function() {
     addCircleMode = !addCircleMode;
-    document.getElementById('switch-label').innerText = addCircleMode ? 'Add Circle' : 'Remove Circle';
+    document.getElementById('switch-label').innerText = addCircleMode ? translations[lang].addCircle : translations[lang].removeCircle;
 });
 
 document.getElementById('initialNumber').addEventListener('input', function() {
@@ -253,12 +254,12 @@ document.getElementById('processButton').addEventListener('click', function() {
 document.getElementById('saveButton').addEventListener('click', downloadImage);
 
 document.getElementById('languageSelector').addEventListener('change', function() {
-    const lang = this.value;
+    lang = this.value;
     document.querySelector('label[for="initialNumber"]').textContent = translations[lang].startCountLabel;
     document.getElementById('processButton').textContent = translations[lang].processButton;
     document.getElementById('saveButton').textContent = translations[lang].saveButton;
     document.getElementById('fileButton').textContent = translations[lang].FileButton;
-    document.getElementById('switch-label').textContent = addCircleMode ? translations[lang].removeCircle : translations[lang].addCircle;
+    document.getElementById('switch-label').textContent = addCircleMode ? translations[lang].addCircle : translations[lang].removeCircle;
     document.querySelector('label[for="labelSize"]').textContent = translations[lang].labelSize;
     document.querySelector('label[for="maxCircles"]').textContent = translations[lang].maxCircles;
 });
