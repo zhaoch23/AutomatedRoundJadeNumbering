@@ -119,3 +119,7 @@ body {
     font-family: '江城圆体';
     src: url('fonts/江城圆体JIANGCHENGYUANTI200W.TTF') format('truetype');
 }
+@font-face {
+    font-family: '三极拙隶简体';
+    src: url('fonts/3-三极拙隶简体SJZHUOLI.TTF') format('truetype');
+}

@@ -40,8 +40,8 @@ function handleFileSelect(event) {
                 circles.length = 0;
                 src = cv.imread(canvas);
                 // rescale the image
-                scale = Math.min(1000 / img.width, 1000 / img.height);
-                cv.resize(src, src, {width: 0, height: 0}, scale, scale, cv.INTER_AREA);
+                //scale = Math.min(1000 / img.width, 1000 / img.height);
+                //cv.resize(src, src, {width: 0, height: 0}, scale, scale, cv.INTER_AREA);
                 processImage(src.clone());
             };
             img.src = e.target.result;
@@ -81,19 +81,24 @@ function processImage(img) {
     }
     
     const gray = new cv.Mat();
+    const rescaled = new cv.Mat();
 
     const detectedCircles = new cv.Mat();
     
-    // Parameters for circle detection
-    const minRadius = parseInt((0.6 * img.cols / circlesPerRow) / 2, 10);
-    const maxRadius = parseInt((1.1 * img.cols / circlesPerRow) / 2, 10);
+    // Rescale the image
+    scale = Math.min(1000 / img.cols, 1000 / img.rows);
+    cv.resize(img, rescaled, {width: 0, height: 0}, scale, scale, cv.INTER_AREA);
 
-    cv.cvtColor(img, gray, cv.COLOR_RGBA2GRAY);
+    // Parameters for circle detection
+    const minRadius = parseInt((0.6 * rescaled.cols / circlesPerRow) / 2, 10);
+    const maxRadius = parseInt((1.1 * rescaled.cols / circlesPerRow) / 2, 10);
+
+    cv.cvtColor(rescaled, gray, cv.COLOR_RGBA2GRAY);
     // constrast
     // cv.threshold(gray, gray, 0, 255, cv.THRESH_TRUNC | cv.THRESH_OTSU);
     // GaussianBlur
     cv.GaussianBlur(gray, gray, {width: 9, height: 9}, 1.5, 1.5);
-    cv.imshow('canvas', gray);
+    
     cv.HoughCircles(gray, 
                     detectedCircles, 
                     cv.HOUGH_GRADIENT, 
@@ -109,7 +114,8 @@ function processImage(img) {
         const x = detectedCircles.data32F[i * 3];
         const y = detectedCircles.data32F[i * 3 + 1];
         const radius = detectedCircles.data32F[i * 3 + 2];
-        circles.push({x, y, radius});
+        // Save the circle with original scale
+        circles.push({ x: x / scale, y: y / scale, radius: radius / scale });
     }
     detectedCircles.delete();
     redraw();
@@ -250,6 +256,7 @@ document.getElementById('labelStrokeSize').addEventListener('input', function() 
 
 document.getElementById('maxCircles').addEventListener('input', function() {
     circlesPerRow = this.value;
+    document.querySelector('label[for="maxCircles"]').textContent = translations[lang].maxCircles + this.value;
 });
 
 document.getElementById('processButton').addEventListener('click', function() {
@@ -277,7 +284,7 @@ document.getElementById('languageSelector').addEventListener('change', function(
     document.getElementById('switch-label').textContent = addCircleMode ? translations[lang].addCircle : translations[lang].removeCircle;
     document.querySelector('label[for="labelSize"]').textContent = translations[lang].labelSize;
     document.querySelector('label[for="labelStrokeSize"]').textContent = translations[lang].labelStrokeSize;
-    document.querySelector('label[for="maxCircles"]').textContent = translations[lang].maxCircles;
+    document.querySelector('label[for="maxCircles"]').textContent = translations[lang].maxCircles + ` ${document.getElementById('maxCircles').value}`;
     document.querySelector('label[for="color"]').textContent = translations[lang].color;
     document.querySelector('label[for="font"]').textContent = translations[lang].font;
 });
