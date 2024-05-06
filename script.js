@@ -1,4 +1,5 @@
 let src;                    // src image
+let scale;                  // scale factor
 let cv;                     // OpenCV
 let canvas;                 // canvas element
 let ctx;                    // canvas context
@@ -38,6 +39,9 @@ function handleFileSelect(event) {
                 ctx.drawImage(img, 0, 0, img.width, img.height);
                 circles.length = 0;
                 src = cv.imread(canvas);
+                // rescale the image
+                scale = Math.min(1000 / img.width, 1000 / img.height);
+                cv.resize(src, src, {width: 0, height: 0}, scale, scale, cv.INTER_AREA);
                 processImage(src.clone());
             };
             img.src = e.target.result;
@@ -81,7 +85,7 @@ function processImage(img) {
     const detectedCircles = new cv.Mat();
     
     // Parameters for circle detection
-    const minRadius = parseInt((0.8 * img.cols / circlesPerRow) / 2, 10);
+    const minRadius = parseInt((0.6 * img.cols / circlesPerRow) / 2, 10);
     const maxRadius = parseInt((1.1 * img.cols / circlesPerRow) / 2, 10);
 
     cv.cvtColor(img, gray, cv.COLOR_RGBA2GRAY);
@@ -193,15 +197,15 @@ function downloadImage() {
     let yTolerance = canvas.width / circlesPerRow / 3;
     let numberedCircles = clusterCirclesByRow(circles, yTolerance);
 
-
-
     cv.imshow(offScreenCanvas, src);
     numberedCircles.forEach(circle => {
         drawLabel(circle, offCtx);
     });
 
+
     // Convert the canvas to a data URL and download it
-    const image = offScreenCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+    let image = offScreenCanvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+
     const link = document.createElement('a');
     link.download = 'numbered-image.png';
     link.href = image;
@@ -275,4 +279,5 @@ document.getElementById('languageSelector').addEventListener('change', function(
     document.querySelector('label[for="labelStrokeSize"]').textContent = translations[lang].labelStrokeSize;
     document.querySelector('label[for="maxCircles"]').textContent = translations[lang].maxCircles;
     document.querySelector('label[for="color"]').textContent = translations[lang].color;
+    document.querySelector('label[for="font"]').textContent = translations[lang].font;
 });
