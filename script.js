@@ -5,6 +5,7 @@ let ctx;                    // canvas context
 const circles = [];         // array of circles
 let circlesPerRow = 7;      // number of circles per row
 let labelSize = 50;         // size of the label
+let labelColor = '#000000'; // color of the label
 let addCircleMode = false;   // add or remove circle mode
 let lang = 'zh_cn';         // language
 
@@ -131,7 +132,7 @@ function redraw() {
             ctx.font = `bold ${labelSize}px Arial`;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillStyle = 'blue';
+            ctx.fillStyle = labelColor;
             ctx.strokeStyle = 'white';
             ctx.lineWidth = 3; // Adjust stroke width to your preference
 
@@ -209,7 +210,7 @@ function downloadImage() {
         offCtx.font = `bold ${labelSize}px Arial`;
         offCtx.textAlign = 'center';
         offCtx.textBaseline = 'middle';
-        offCtx.fillStyle = 'blue';
+        offCtx.fillStyle = labelColor;
         offCtx.strokeStyle = 'white';
         offCtx.lineWidth = 3; // Adjust stroke width to your preference
         // Draw filled text
@@ -253,6 +254,11 @@ document.getElementById('processButton').addEventListener('click', function() {
 
 document.getElementById('saveButton').addEventListener('click', downloadImage);
 
+document.getElementById("color").addEventListener("input", function() {
+    labelColor = this.value;
+    redraw();
+});
+
 document.getElementById('languageSelector').addEventListener('change', function() {
     lang = this.value;
     document.querySelector('label[for="initialNumber"]').textContent = translations[lang].startCountLabel;
@@ -262,4 +268,5 @@ document.getElementById('languageSelector').addEventListener('change', function(
     document.getElementById('switch-label').textContent = addCircleMode ? translations[lang].addCircle : translations[lang].removeCircle;
     document.querySelector('label[for="labelSize"]').textContent = translations[lang].labelSize;
     document.querySelector('label[for="maxCircles"]').textContent = translations[lang].maxCircles;
+    document.querySelector('label[for="color"]').textContent = translations[lang].color;
 });
