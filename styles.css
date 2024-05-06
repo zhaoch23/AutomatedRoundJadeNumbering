@@ -82,33 +82,40 @@ body {
     margin-top: 10px;
 }
 
-/* General styles for form controls */
 #initial-number-container {
     text-align: center;
     margin: 20px;
 }
 
 #initial-number-container label {
-    font-size: 16px; /* Larger text for easier reading */
+    font-size: 16px; 
     margin-right: 10px;
 }
 
 #initialNumber {
-    font-size: 16px; /* Larger font size for easier interaction */
-    padding: 10px; /* Larger padding for easier tapping */
-    width: 100px; /* Appropriate width for mobile screens */
-    border: 2px solid #007bff; /* Stylish border color */
-    border-radius: 5px; /* Rounded corners for modern look */
+    font-size: 16px; 
+    padding: 10px; 
+    width: 100px; 
+    border: 2px solid #007bff; 
+    border-radius: 5px; 
 }
 
-/* Media query for devices with a max-width of 600px */
 @media (max-width: 600px) {
     #initial-number-container {
-        font-size: 18px; /* Even larger text for very small screens */
+        font-size: 18px; 
     }
 
     #initialNumber {
-        width: 80%; /* Takes up most of the container for easier access */
-        padding: 15px; /* Larger padding for better tap accuracy */
+        width: 80%; 
+        padding: 15px; 
     }
+}
+
+@font-face {
+    font-family: 'ALIBABA';
+    src: url('fonts/ALIBABAPUHUITI-3-35-THIN.TTF') format('truetype');
+}
+@font-face {
+    font-family: '江城圆体';
+    src: url('fonts/江城圆体JIANGCHENGYUANTI200W.TTF') format('truetype');
 }

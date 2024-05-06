@@ -41,9 +41,21 @@
             <input type="range" id="labelSize" min="10" max="200" value="50">
         </div>
 
+        <div id="label-stroke-size-container">
+            <label for="labelStrokeSize">Label Stroke Size: <span id="labelStrokeSizeValue">3</span></label>
+            <input type="range" id="labelStrokeSize" min="0" max="10" value="3">
+        </div>
+
         <div id="color-container">
             <label for="color">Number Color:</label>
             <input type="color" id="color" value="#000000">
+            
+            <label for="font">Choose a Font:</label>
+            <select id="font">
+                <option value="Arial">Arial</option>
+                <option value="ALIBABA">ALIBABA</option>
+                <option value="江城圆体">江城圆体</option>
+            </select>
         </div>
 
         <button id="processButton">Process Image</button>

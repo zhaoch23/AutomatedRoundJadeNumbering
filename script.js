@@ -5,7 +5,9 @@ let ctx;                    // canvas context
 const circles = [];         // array of circles
 let circlesPerRow = 7;      // number of circles per row
 let labelSize = 50;         // size of the label
+let labelStrokeWidth = 3;   // stroke width of the label
 let labelColor = '#000000'; // color of the label
+let font = 'Arial';         // font of the label
 let addCircleMode = false;   // add or remove circle mode
 let lang = 'zh_cn';         // language
 
@@ -129,18 +131,7 @@ function redraw() {
             ctx.stroke();
 
             // Draw the number inside the circle
-            ctx.font = `bold ${labelSize}px Arial`;
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillStyle = labelColor;
-            ctx.strokeStyle = 'white';
-            ctx.lineWidth = 3; // Adjust stroke width to your preference
-
-            // Draw filled text
-            ctx.fillText(circle.number, circle.x, circle.y);
-
-            // Draw stroke text for outline
-            ctx.strokeText(circle.number, circle.x, circle.y);
+            drawLabel(circle, ctx);
         });
     };
     img.src = canvas.toDataURL();
@@ -206,17 +197,7 @@ function downloadImage() {
 
     cv.imshow(offScreenCanvas, src);
     numberedCircles.forEach(circle => {
-        // Draw the number inside the circle
-        offCtx.font = `bold ${labelSize}px Arial`;
-        offCtx.textAlign = 'center';
-        offCtx.textBaseline = 'middle';
-        offCtx.fillStyle = labelColor;
-        offCtx.strokeStyle = 'white';
-        offCtx.lineWidth = 3; // Adjust stroke width to your preference
-        // Draw filled text
-        offCtx.fillText(circle.number, circle.x, circle.y);
-        // Draw stroke text for outline
-        offCtx.strokeText(circle.number, circle.x, circle.y);
+        drawLabel(circle, offCtx);
     });
 
     // Convert the canvas to a data URL and download it
@@ -225,6 +206,22 @@ function downloadImage() {
     link.download = 'numbered-image.png';
     link.href = image;
     link.click();
+}
+
+function drawLabel(circle, ctx) {
+        // Draw the number inside the circle
+        ctx.font = `${labelSize}px ` + font;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = labelColor;
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = labelStrokeWidth; // Adjust stroke width to your preference
+        // Draw filled text
+        ctx.fillText(circle.number, circle.x, circle.y);
+        if (labelStrokeWidth > 0) {
+            // Draw stroke text for outline
+            ctx.strokeText(circle.number, circle.x, circle.y);
+        }
 }
 
 
@@ -239,13 +236,16 @@ document.getElementById('initialNumber').addEventListener('input', function() {
 
 document.getElementById('labelSize').addEventListener('input', function() {
     labelSize = this.value;
-    document.getElementById('labelSizeValue').textContent = this.value;
+    redraw();
+});
+
+document.getElementById('labelStrokeSize').addEventListener('input', function() {
+    labelStrokeWidth = this.value;
     redraw();
 });
 
 document.getElementById('maxCircles').addEventListener('input', function() {
     circlesPerRow = this.value;
-    document.getElementById('maxCirclesValue').textContent = this.value;
 });
 
 document.getElementById('processButton').addEventListener('click', function() {
@@ -259,6 +259,11 @@ document.getElementById("color").addEventListener("input", function() {
     redraw();
 });
 
+document.getElementById("font").addEventListener("input", function() {
+    font = this.value;
+    redraw();
+});
+
 document.getElementById('languageSelector').addEventListener('change', function() {
     lang = this.value;
     document.querySelector('label[for="initialNumber"]').textContent = translations[lang].startCountLabel;
@@ -267,6 +272,7 @@ document.getElementById('languageSelector').addEventListener('change', function(
     document.getElementById('fileButton').textContent = translations[lang].FileButton;
     document.getElementById('switch-label').textContent = addCircleMode ? translations[lang].addCircle : translations[lang].removeCircle;
     document.querySelector('label[for="labelSize"]').textContent = translations[lang].labelSize;
+    document.querySelector('label[for="labelStrokeSize"]').textContent = translations[lang].labelStrokeSize;
     document.querySelector('label[for="maxCircles"]').textContent = translations[lang].maxCircles;
     document.querySelector('label[for="color"]').textContent = translations[lang].color;
 });
